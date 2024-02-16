@@ -1,4 +1,16 @@
-class MancalBot:
+import math
+import copy
+
+class Bot:
+    def __init__(self, depth, state, player_num):
+        self.reset(depth, state, player_num)
+
+    def reset(self, depth, state, player_num):
+        self.depth = depth
+        self.state = state
+        self.player_num = player_num
+        self.terminal_list = list()
+
     def minimax_alpha_beta(self, state, depth, alpha, beta, maximizing_player, cur_player):
             if depth == 0 or state.game_over:
                 return self.evaluate_state(state), None

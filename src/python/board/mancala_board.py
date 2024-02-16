@@ -1,4 +1,7 @@
-class Mancala:
+import math
+import random
+
+class Board:
     def __init__(self):
         # Constructor calls reset so we can run this through a loop without persistence 
         self.reset()
