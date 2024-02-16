@@ -8,4 +8,5 @@ while(game.game_over == False):
         bot.reset(3, game, 1)
         bot.best_move(game, True)
         game.random_move_generator()
+        game.renderBoard()
 print(game.winner)

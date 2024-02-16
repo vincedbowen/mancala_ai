@@ -217,4 +217,7 @@ class Board:
                 return (True, "Tie")
         else:
             return (False, None)
-        
+
+    def renderBoard(self):
+        print(self.player_one_side)
+        print("              ", self.player_two_side)
