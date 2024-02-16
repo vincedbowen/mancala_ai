@@ -2,11 +2,11 @@ import math
 import random
 
 class Board:
-    def __init__(self):
+    def __init__(self, pits_per_player=6, stones_per_pit=4):
         # Constructor calls reset so we can run this through a loop without persistence 
-        self.reset()
+        self.reset(pits_per_player, stones_per_pit)
         
-    def reset(self, pits_per_player=6, stones_per_pit = 4):
+    def reset(self, pits_per_player, stones_per_pit):
         """
         The psuedo-constructor for the Mancala class defines several instance variables:
 
