@@ -74,4 +74,4 @@ class Bot:
 
     def evaluate_state(self, state):
         # Utility function  :- Difference between P1 mancala and p2 mancala
-        return (state.player_one_side['mancala'] - state.player_two_side['mancala'])
+        return (state.player_one_side['player 1 mancala'] - state.player_two_side['player 2 mancala'])
