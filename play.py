@@ -1,11 +1,13 @@
 from board.mancala_board import Board as mancala
-from random_opponent import random_moves
+from random_opponent import random_moves as rm
+from bot.mancala_bot import Bot
+from userInput import user_input as ui
 
 game = mancala()
-bot = bot(3, game, 2)
+ui.get_turn_num()
 while not game.game_over:
-    bot.reset(3, game, 1)
-    bot.best_move(game, True)
-    random_moves.random_move_generator(game)
+    random_moves = rm.random_move_generator(game)
+    pit = ui.get_pit()
+    game.play(pit)
     game.render_board()
 print(game.winner)
