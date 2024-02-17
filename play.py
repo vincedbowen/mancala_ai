@@ -7,5 +7,5 @@ while not game.game_over:
     bot.reset(3, game, 1)
     bot.best_move(game, True)
     game.random_move_generator()
-    game.renderBoard()
+    game.render_board()
 print(game.winner)

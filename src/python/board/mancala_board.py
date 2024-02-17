@@ -1,11 +1,12 @@
 import math
 import random
 
+
 class Board:
     def __init__(self, pits_per_player=6, stones_per_pit=4):
         # Constructor calls reset so we can run this through a loop without persistence 
         self.reset(pits_per_player, stones_per_pit)
-        
+
     def reset(self, pits_per_player, stones_per_pit):
         """
         The psuedo-constructor for the Mancala class defines several instance variables:
@@ -21,7 +22,7 @@ class Board:
         """
         self.pits_per_player = pits_per_player
         self.player_one_side = {
-            'mancala' : 0
+            'mancala': 0
         }
         self.player_two_side = dict()
         # Exclusive range, but make it one-indexed to support play style better
@@ -36,7 +37,7 @@ class Board:
         self.total_pits = pits_per_player * 2 + 2
         self.game_over = False
         self.winner = None
-        
+
     def valid_move(self, pit):
         """
         Function to determine validity of a move. Return True if the move is valid
@@ -57,13 +58,6 @@ class Board:
             else:
                 return True
 
-    def random_move_generator(self):
-        """
-        Function to generate random moves
-        """
-        pit = random.randrange(self.pits_index[0], self.pits_index[1] + 1)
-        self.play(pit)
-
     def play(self, pit):
         """
         This function simulates a single move made by a specific player using their selected pit. It primarily performs three tasks:
@@ -74,14 +68,14 @@ class Board:
         Finally, the function then switches the current player, allowing the other player to take their turn.
         """
         win = self.winning_eval()
-        if win[0] == True:
+        if win[0]:
             # print(win[1])
             pass
-        elif self.valid_move(pit) == False:
+        elif not self.valid_move(pit):
             # print("INVALID MOVE")
             pass
         else:
-            move = self.current_player, " selects ",  pit
+            move = self.current_player, " selects ", pit
             self.moves.append(move)
             if self.current_player == 1:
                 # empty the selected pit
@@ -100,32 +94,32 @@ class Board:
                 side = self.current_player
                 # Check if mancala deposit was last play
                 last_played = False
-                while(leftovers > 0):
-                    if(side == 1):
+                while leftovers > 0:
+                    if side == 1:
                         moving_pit -= 1
                     else:
                         moving_pit += 1
-                    if(moving_pit < 1 and side == 1):
+                    if moving_pit < 1 and side == 1:
                         self.player_one_side['mancala'] += 1
                         side = 2
                         leftovers -= 1
                         moving_pit = 0
                         last_played = True
-                    elif(moving_pit > 6 and side == 2):
+                    elif moving_pit > 6 and side == 2:
                         self.player_two_side['mancala'] += 1
                         side = 1
                         leftovers -= 1
                         moving_pit = 7
                         last_played = True
                     else:
-                        if(side == 1):
+                        if side == 1:
                             self.player_one_side[moving_pit] += 1
                         else:
                             self.player_two_side[moving_pit] += 1
                         leftovers -= 1
                         last_played = False
                 # Check if the last play was an empty slot own that player's side and steal all the oppposites 
-                if(last_played == False and self.player_one_side[moving_pit] == 1 and side == 1):
+                if last_played == False and self.player_one_side[moving_pit] == 1 and side == 1:
                     self.player_one_side['mancala'] += self.player_two_side[moving_pit]
                     self.player_two_side[moving_pit] = 0
                     self.player_one_side['mancala'] += 1
@@ -149,39 +143,39 @@ class Board:
                 side = self.current_player
                 # Check if mancala deposit was last play
                 last_played = False
-                while(leftovers > 0):
-                    if(side == 1):
+                while (leftovers > 0):
+                    if (side == 1):
                         moving_pit -= 1
                     else:
                         moving_pit += 1
-                    if(moving_pit < 1 and side == 1):
+                    if (moving_pit < 1 and side == 1):
                         self.player_one_side['mancala'] += 1
                         side = 2
                         leftovers -= 1
                         moving_pit = 0
                         last_played = True
-                    elif(moving_pit > 6 and side == 2):
+                    elif (moving_pit > 6 and side == 2):
                         self.player_two_side['mancala'] += 1
                         side = 1
                         leftovers -= 1
                         moving_pit = 7
                         last_played = True
                     else:
-                        if(side == 1):
+                        if (side == 1):
                             self.player_one_side[moving_pit] += 1
                         else:
                             self.player_two_side[moving_pit] += 1
                         leftovers -= 1
                         last_played = False
                 # Check if the last play was an empty slot own that player's side and steal all the oppposites 
-                if(last_played == False and self.player_two_side[moving_pit] == 1 and side == 2):
+                if (last_played == False and self.player_two_side[moving_pit] == 1 and side == 2):
                     self.player_two_side['mancala'] += self.player_one_side[moving_pit]
                     self.player_two_side['mancala'] += 1
                     self.player_two_side[moving_pit] = 0
                     self.player_one_side[moving_pit] = 0
                 # change current player 
                 self.current_player = 1
-        
+
     def winning_eval(self):
         """
         Function to verify if the game board has reached the winning state.
@@ -191,12 +185,12 @@ class Board:
         player_two_flag = False
         # Exclusive Range
         for i in range(1, self.pits_per_player + 1):
-            if(self.player_one_side[i] != 0):
+            if self.player_one_side[i] != 0:
                 player_one_flag = True
-            if(self.player_two_side[i] != 0):
+            if self.player_two_side[i] != 0:
                 player_two_flag = True
         # If either player has no non-empty pits, the other player gets all the seeds from their side
-        if(player_one_flag == False or player_two_flag == False):
+        if player_one_flag == False or player_two_flag == False:
             for i in range(1, self.pits_per_player + 1):
                 self.player_one_side['mancala'] += self.player_one_side[i]
                 self.player_two_side['mancala'] += self.player_two_side[i]
@@ -206,18 +200,18 @@ class Board:
             player_two_sum = self.player_two_side['mancala']
             # End game and check who wins
             self.game_over = True
-            if(player_one_sum > player_two_sum):
+            if player_one_sum > player_two_sum:
                 self.winner = 1
-                return (True, "Player One Won")
-            elif(player_two_sum > player_one_sum):
+                return True, "Player One Won"
+            elif player_two_sum > player_one_sum:
                 self.winner = 2
-                return (True, "Player Two Won")
+                return True, "Player Two Won"
             else:
                 self.winner = 0
-                return (True, "Tie")
+                return True, "Tie"
         else:
-            return (False, None)
+            return False, None
 
-    def renderBoard(self):
+    def render_board(self):
         print(self.player_one_side)
         print("              ", self.player_two_side)
