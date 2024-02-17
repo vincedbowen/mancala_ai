@@ -25,3 +25,18 @@ def get_turn_num():
         else:
             return turn.lower()
 
+
+def get_option():
+    while True:
+        print("Please select an option:")
+        print("1. Simulate game(s) (random vs. AI)")
+        print("2. Play against an AI")
+        try:
+            selection = input("[1/2] \n")
+            if selection != '1' and selection != '2':
+                raise ValueError
+        except ValueError:
+            print("Please enter a 1 or 2")
+            continue
+        else:
+            return selection
