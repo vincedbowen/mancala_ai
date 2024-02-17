@@ -39,4 +39,7 @@ def get_option():
             print("Please enter a 1 or 2")
             continue
         else:
-            return selection
+            if selection == '1':
+                pass
+            else:
+                return "play.py"

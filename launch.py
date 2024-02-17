@@ -1,4 +1,4 @@
-import sys
+from userInput.user_input import get_option as get_op
 
 
 def run_file(file_name):
@@ -9,18 +9,8 @@ def run_file(file_name):
 
 
 def main():
-    print("Choose a file to run:")
-    print("1. File1.py")
-    print("2. File2.py")
-
-    choice = input("Enter the number of your choice: ")
-
-    if choice == "1":
-        run_file("File1.py")
-    elif choice == "2":
-        run_file("File2.py")
-    else:
-        print("Invalid choice. Please enter 1 or 2.")
+    user_file_choice = get_op()
+    run_file(user_file_choice)
 
 
 if __name__ == "__main__":

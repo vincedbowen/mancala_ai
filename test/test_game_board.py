@@ -5,9 +5,6 @@ from board.game_board import Board
 
 
 class TestBoard(TestCase):
-    def test_reset(self):
-        self.fail()
-
     def test_valid_move(self):
         board = Board()
         # Mocking player 1 winning
@@ -124,5 +121,3 @@ class TestBoard(TestCase):
             board.switch_player()
             self.assertEqual(board.current_player, 2)
 
-    def test_simple_print(self):
-        self.fail()
