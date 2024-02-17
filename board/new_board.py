@@ -2,32 +2,39 @@ import math
 
 
 class Board:
-    def __init__(self, pits_per_player=6, stones_per_pit=4):
-        # Constructor calls reset so we can run this through a loop without persistence
+    def __init__(self, pits_per_player=6, stones_per_pit=4, user_player=None):
+        """
+        Constructor to make the mancala board. This actually just calls a reset function in order to avoid accidental
+        persistence.
+        :param pits_per_player: Optional parameter to specify how many pits each player has. Ie the game is customizable
+        from the original rules of mancala. Default is 6.
+        :param stones_per_pit: Optional parameter to specify how many stones to put in each pit. Ie the game is
+        customizable from the original rules of mancala. Default is 4.
+        :param user_player: Optional value to indicate which player the user wants to play, if they are playing.
+        """
         self.winner = None
         self.game_over = None
         self.total_pits = None
         self.pits_index = None
         self.moves = None
         self.current_player = None
+        self.user_player = None
         self.players = None
         self.virtual_board = None
         self.pits_per_player = None
-        self.reset(pits_per_player, stones_per_pit)
+        self.reset(pits_per_player, stones_per_pit, user_player)
 
-    def reset(self, pits_per_player, stones_per_pit):
+    def reset(self, pits_per_player, stones_per_pit, user_player):
         """
-        The psuedo-constructor for the Mancala class defines several instance variables:
-
-        pits_per_player: This variable stores the number of pits each player has.
-        stones_per_pit: It represents the number of stones each pit contains at the start of any game.
-        board: This data structure is responsible for managing the Mancala board.
-        current_player: This variable takes the value 1 or 2, as it's a two-player game, indicating which player's turn it is.
-        random_opponent: This is a list used to store the random_opponent made by each player. It's structured in the format (current_player, chosen_pit).
-        p1_pits_index: A list containing two elements representing the start and end indices of player 1's pits in the board data structure.
-        p2_pits_index: Similar to p1_pits_index, it contains the start and end indices for player 2's pits on the board.
-        p1_mancala_index and p2_mancala_index: These variables hold the indices of the Mancala pits on the board for players 1 and 2, respectively.
+        Resets the board and game to remove any idea of persistence. Extremely important due to the min-max function
+        creating deep copies
+        :param pits_per_player: How many pits each player has. Ie the game is customizable
+        from the original rules of mancala. Default is 6.
+        :param stones_per_pit: How many stones to put in each pit. Ie the game is
+        customizable from the original rules of mancala. Default is 4.
+        :param user_player: Value to indicate which player the user wants to play, if they are playing.
         """
+        self.user_player = user_player
         self.pits_per_player = pits_per_player
         self.virtual_board = {'player 1 mancala': 0}
         for i in range(1, pits_per_player + 1):
@@ -72,16 +79,35 @@ class Board:
 
     def move(self, pit):
         """
-
-        :param pit:
-        :return:
+        Actually moves the stones according to the rules of mancala.
+        :param pit: The pit that a player has selected
         """
+        if self.current_player == 2:
+            pit = self.player_two_pit_correction(pit)
         if self.winning_eval():
             self.game_over = True
         elif self.valid_move(pit):
             print("Invalid Move!")
         else:
-            
+            stones = self.virtual_board[pit]
+            self.virtual_board[pit] = 0
+            current_pit = pit
+            while stones > 0:
+                # Move towards mancala
+                current_pit = (current_pit - 2) % 14 + 1
+                if current_pit != 0 and current_pit != 14:
+                    self.virtual_board[current_pit] += 1
+                    stones -= 1
+                elif current_pit == 14 and self.current_player == 2:
+                    self.virtual_board['player 2 mancala'] += 1
+                    stones -= 1
+                elif current_pit == 0 and self.current_player == 1:
+                    self.virtual_board['player 1 mancala'] += 1
+                    stones -= 1
+            self.can_capture(self.current_player, current_pit)
+            play_again = self.check_for_play_again(self.current_player, current_pit)
+            if not play_again:
+                self.switch_player()
 
     def winning_eval(self):
         """
@@ -145,11 +171,13 @@ class Board:
             return None
 
     def switch_player(self):
+        """
+        Switches who the current player is
+        """
         self.current_player = 3 - self.current_player
 
-    def render_board(self):
+    def simple_print(self):
+        """
+        Simply renders the board as the underlying dictionary data structure.
+        """
         print(self.virtual_board)
-
-
-board = Board()
-print(board.virtual_board)
