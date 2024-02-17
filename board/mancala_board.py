@@ -14,7 +14,7 @@ class Board:
         stones_per_pit: It represents the number of stones each pit contains at the start of any game.
         board: This data structure is responsible for managing the Mancala board.
         current_player: This variable takes the value 1 or 2, as it's a two-player game, indicating which player's turn it is.
-        moves: This is a list used to store the moves made by each player. It's structured in the format (current_player, chosen_pit).
+        random_opponent: This is a list used to store the random_opponent made by each player. It's structured in the format (current_player, chosen_pit).
         p1_pits_index: A list containing two elements representing the start and end indices of player 1's pits in the board data structure.
         p2_pits_index: Similar to p1_pits_index, it contains the start and end indices for player 2's pits on the board.
         p1_mancala_index and p2_mancala_index: These variables hold the indices of the Mancala pits on the board for players 1 and 2, respectively.

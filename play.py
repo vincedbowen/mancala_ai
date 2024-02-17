@@ -1,6 +1,5 @@
-from bot import Bot as bot
 from board.mancala_board import Board as mancala
-from moves import random_moves
+from random_opponent import random_moves
 
 game = mancala()
 bot = bot(3, game, 2)

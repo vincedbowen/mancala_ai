@@ -17,14 +17,14 @@ class Bot:
             best_move = None
             if maximizing_player:
                 value = -math.inf
-                # Loop through all possible moves and check if it is valid
+                # Loop through all possible random_opponent and check if it is valid
                 for i in range(1, state.pits_index[1] + 1):
                     if state.valid_move(i):
                         temp_state = copy.deepcopy(state)
                         temp_state.play(i)
                         # continue down the levels of the tree
                         new_val, _ = self.minimax_alpha_beta(temp_state, depth - 1, alpha, beta, False, 3 - state.current_player)
-                        # compare moves
+                        # compare random_opponent
                         if new_val > value:
                             value = new_val
                             best_move = i
@@ -37,13 +37,13 @@ class Bot:
                 return value, best_move
             else:
                 value = math.inf
-                # Loop through all possible moves and check if it is valid
+                # Loop through all possible random_opponent and check if it is valid
                 for i in range(1, state.pits_index[1] + 1):
                     if state.valid_move(i):
                         temp_state = copy.deepcopy(state)
                         temp_state.play(i)
                         new_val, _ = self.minimax_alpha_beta(temp_state, depth - 1, alpha, beta, True, 3 - state.current_player)
-                        # compare moves
+                        # compare random_opponent
                         if new_val < value:
                             value = new_val
                             best_move = i
