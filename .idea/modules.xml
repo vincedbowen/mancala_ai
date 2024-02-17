@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/mancala-ai.iml" filepath="$PROJECT_DIR$/.idea/mancala-ai.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../mancala_ai/.idea/mancala_ai.iml" filepath="$PROJECT_DIR$/../mancala_ai/.idea/mancala_ai.iml" />
     </modules>
   </component>
 </project>
