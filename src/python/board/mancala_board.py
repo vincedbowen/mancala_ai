@@ -42,17 +42,17 @@ class Board:
         Function to determine validity of a move. Return True if the move is valid
         """
         # Check the pit is in the range and the pit is non empty 
-        if(self.current_player == 1):
-            if(pit < self.pits_index[0] or pit > self.pits_index[1]):
+        if self.current_player == 1:
+            if pit < self.pits_index[0] or pit > self.pits_index[1]:
                 return False
-            elif(self.player_one_side[pit] == 0):
+            elif self.player_one_side[pit] == 0:
                 return False
             else:
                 return True
         else:
-            if(pit < self.pits_index[0] or pit > self.pits_index[1]):
+            if pit < self.pits_index[0] or pit > self.pits_index[1]:
                 return False
-            elif(self.player_two_side[pit] == 0):
+            elif self.player_two_side[pit] == 0:
                 return False
             else:
                 return True
@@ -74,16 +74,16 @@ class Board:
         Finally, the function then switches the current player, allowing the other player to take their turn.
         """
         win = self.winning_eval()
-        if(win[0] == True):
+        if win[0] == True:
             # print(win[1])
             pass
-        elif(self.valid_move(pit) == False):
+        elif self.valid_move(pit) == False:
             # print("INVALID MOVE")
             pass
         else:
             move = self.current_player, " selects ",  pit
             self.moves.append(move)
-            if(self.current_player == 1):
+            if self.current_player == 1:
                 # empty the selected pit
                 num_stones = self.player_one_side[pit]
                 self.player_one_side[pit] = 0
