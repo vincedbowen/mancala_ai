@@ -43,3 +43,20 @@ def get_option():
                 pass
             else:
                 return "play.py"
+
+
+def get_num_sims():
+    while True:
+        try:
+            sims = input("Enter Number of simulations [1, 100]:")
+            if not sims.isdigit():
+                raise ValueError
+            else:
+                sims = int(sims)
+            if sims < 1 or sims > 100:
+                raise ValueError
+        except ValueError:
+            print("Enter an Integer between 1 and 100!!")
+            continue
+        else:
+            return sims
