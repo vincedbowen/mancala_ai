@@ -1,6 +1,3 @@
-import math
-
-
 class Board:
     def __init__(self, pits_per_player=6, stones_per_pit=4, user_player=None):
         """
@@ -163,9 +160,9 @@ class Board:
         Determines who won the game
         :return: The winner of the game. If the game is a tie, return None
         """
-        if (self.virtual_board['player 1 mancala'] > self.virtual_board['player 2 mancala']):
+        if self.virtual_board['player 1 mancala'] > self.virtual_board['player 2 mancala']:
             return 1
-        elif (self.virtual_board['player 2 mancala'] > self.virtual_board['player 1 mancala']):
+        elif self.virtual_board['player 2 mancala'] > self.virtual_board['player 1 mancala']:
             return 2
         else:
             return None
