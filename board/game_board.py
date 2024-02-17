@@ -37,8 +37,8 @@ class Board:
         for i in range(1, pits_per_player + 1):
             self.virtual_board[i] = stones_per_pit
         self.virtual_board['player 2 mancala'] = 0
-        for i in range(pits_per_player + 1, 2 * pits_per_player + 1):
-            self.virtual_board[i] = 0
+        for i in range(pits_per_player + 2, 2 * pits_per_player + 2):
+            self.virtual_board[i] = stones_per_pit
         self.players = 2
         self.current_player = 1
         self.moves = []
@@ -83,7 +83,7 @@ class Board:
             pit = self.player_two_pit_correction(pit)
         if self.winning_eval():
             self.game_over = True
-        elif self.valid_move(pit):
+        elif not self.valid_move(pit):
             print("Invalid Move!")
         else:
             stones = self.virtual_board[pit]
@@ -91,11 +91,11 @@ class Board:
             current_pit = pit
             while stones > 0:
                 # Move towards mancala
-                current_pit = (current_pit - 2) % 14 + 1
-                if current_pit != 0 and current_pit != 14:
+                current_pit = (current_pit - 1 + 14) % 14
+                if current_pit != 0 and current_pit != 7:
                     self.virtual_board[current_pit] += 1
                     stones -= 1
-                elif current_pit == 14 and self.current_player == 2:
+                elif current_pit == 7 and self.current_player == 2:
                     self.virtual_board['player 2 mancala'] += 1
                     stones -= 1
                 elif current_pit == 0 and self.current_player == 1:
@@ -148,9 +148,9 @@ class Board:
         :param ending_pit: The last pit a stone was dropped in as a dictionary key
         :return: A boolean value representing whether the player should play again
         """
-        if current_player == 1 and ending_pit == 'player 1 mancala':
+        if current_player == 1 and ending_pit == 0:
             return True
-        elif current_player == 2 and ending_pit == 'player 2 mancala':
+        elif current_player == 2 and ending_pit == 7:
             return True
         else:
             return False
@@ -178,3 +178,6 @@ class Board:
         Simply renders the board as the underlying dictionary data structure.
         """
         print(self.virtual_board)
+
+    def get_board(self):
+        return self.virtual_board
