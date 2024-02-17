@@ -8,6 +8,3 @@ def get_pit():
             continue
         else:
             return pit
-            break
-
-get_pit()
