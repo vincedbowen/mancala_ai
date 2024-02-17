@@ -111,12 +111,22 @@ class Board:
         Determines whether the game is over or not
         :return: Boolean value evaluating to true if the game has been completed
         """
-        game_over = True
+        game_over_p1 = True
+        game_over_p2 = True
         for pit, stones in self.virtual_board.items():
-            if pit != 'player 1 mancala' or pit != 'player 2 mancala':
-                if stones > 0:
-                    game_over = False
-        return game_over
+            if pit != 'player 1 mancala' and pit != 'player 2 mancala':
+                if 1 <= pit <= 6 and stones > 0:
+                    game_over_p1 = False
+                if 8 <= pit <= 13 and stones > 0:
+                    game_over_p2 = False
+        return game_over_p1 or game_over_p2
+
+    def winning_gather(self):
+        """
+
+        :return:
+        """
+        pass
 
     def can_capture(self, current_player, ending_pit):
         """

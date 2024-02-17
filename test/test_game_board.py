@@ -30,11 +30,23 @@ class TestBoard(TestCase):
         board = Board()
         new_pit = board.player_two_pit_correction(4)
         self.assertEqual(new_pit, 10)
+
     def test_move(self):
         self.fail()
 
     def test_winning_eval(self):
-        self.fail()
+        board = Board()
+        # Mocking player 1 winning
+        mocked_state = {
+            'player 1 mancala': 5,
+            1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0,
+            'player 2 mancala': 4,
+            7: 0, 8: 0, 9: 0, 10: 9, 11: 0, 12: 0
+        }
+
+        with mock.patch.object(board, 'virtual_board', mocked_state):
+            result = board.winning_eval()
+            self.assertTrue(result)
 
     def test_can_capture(self):
         self.fail()
