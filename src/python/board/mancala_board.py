@@ -68,10 +68,9 @@ class Board:
         """
         win = self.winning_eval()
         if win[0]:
-            # print(win[1])
             pass
         elif not self.valid_move(pit):
-            # print("INVALID MOVE")
+            print("INVALID MOVE")
             pass
         else:
             move = self.current_player, " selects ", pit
@@ -123,8 +122,12 @@ class Board:
                     self.player_two_side[moving_pit] = 0
                     self.player_one_side['mancala'] += 1
                     self.player_one_side[moving_pit] = 0
-                # change current player 
-                self.current_player = 2
+                print(side)
+                if moving_pit == 0 and side == 2:
+                    pass
+                else:
+                    # change current player
+                    self.current_player = 2
             else:
                 # empty the selected pit
                 num_stones = self.player_two_side[pit]
@@ -172,8 +175,11 @@ class Board:
                     self.player_two_side['mancala'] += 1
                     self.player_two_side[moving_pit] = 0
                     self.player_one_side[moving_pit] = 0
-                # change current player 
-                self.current_player = 1
+                if moving_pit == 0 and side == 2:
+                    pass
+                else:
+                    # change current player
+                    self.current_player = 1
 
     def winning_eval(self):
         """
