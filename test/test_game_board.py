@@ -34,7 +34,7 @@ class TestBoard(TestCase):
     def test_move(self):
         self.fail()
 
-    def test_winning_eval(self):
+    def test_winning_eval_one_side_empty(self):
         board = Board()
         # Mocking player 1 winning
         mocked_state = {
@@ -47,6 +47,34 @@ class TestBoard(TestCase):
         with mock.patch.object(board, 'virtual_board', mocked_state):
             result = board.winning_eval()
             self.assertTrue(result)
+
+    def test_winning_eval_both_sides_empty(self):
+        board = Board()
+        # Mocking player 1 winning
+        mocked_state = {
+            'player 1 mancala': 30,
+            1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0,
+            'player 2 mancala': 18,
+            7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0
+        }
+
+        with mock.patch.object(board, 'virtual_board', mocked_state):
+            result = board.winning_eval()
+            self.assertTrue(result)
+
+    def test_winning_eval_neither_sides_empty(self):
+        board = Board()
+        # Mocking player 1 winning
+        mocked_state = {
+            'player 1 mancala': 30,
+            1: 0, 2: 0, 3: 1, 4: 0, 5: 0, 6: 0,
+            'player 2 mancala': 18,
+            7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 3
+        }
+
+        with mock.patch.object(board, 'virtual_board', mocked_state):
+            result = board.winning_eval()
+            self.assertFalse(result)
 
     def test_can_capture(self):
         self.fail()
@@ -88,7 +116,13 @@ class TestBoard(TestCase):
             self.assertEqual(result, None)
 
     def test_switch_player(self):
-        self.fail()
+        board = Board()
+        mocked_state = 2
+        with mock.patch.object(board, 'current_player', mocked_state):
+            board.switch_player()
+            self.assertEqual(board.current_player, 1)
+            board.switch_player()
+            self.assertEqual(board.current_player, 2)
 
     def test_simple_print(self):
         self.fail()
