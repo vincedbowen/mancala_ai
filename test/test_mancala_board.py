@@ -3,7 +3,7 @@ from board.mancala_board import Board
 
 
 class TestBoard(TestCase):
-    def test_play(self):
+    def test_play_turn_one_lands_in_own_store(self):
         board = Board()
         board.play(4)
         board.render_board()
