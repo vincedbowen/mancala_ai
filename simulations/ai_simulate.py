@@ -1,15 +1,17 @@
 import numpy as np
+import streamlit as st
 from board.game_board import Board as Mancala
 from random_opponent import random_moves as rm
-import streamlit as st
+from bot.mancala_bot import Bot
 
 
-def simulate_mancala(num_sims):
+def simulate_mancala_ai(num_sims):
     player_one_wins = 0
     player_two_wins = 0
     ties = 0
     wins = np.zeros(num_sims)
     game = Mancala()
+    ai = Bot(5, game, 1)
     chart = st.line_chart()
     p1_wins_txt = st.text("Percentage of player one wins: ...")
     p2_wins_txt = st.text("Percentage of player two wins: ...")
@@ -18,9 +20,11 @@ def simulate_mancala(num_sims):
     print("Simulating...")
     print("----------------------------------------------")
     for i in range(num_sims):
-        print("Simulating game {}".format(i+1))
+        print("Simulating game {}".format(i + 1))
         game.reset(6, 4, None)
         while not game.game_over:
+            ai.reset(5, game, 1)
+            ai.best_move(game)
             rm.random_move_generator(game)
         if game.winner == 1:
             player_one_wins += 1

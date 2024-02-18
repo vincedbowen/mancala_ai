@@ -61,6 +61,8 @@ class Board:
                 return False
         if self.virtual_board[pit] == 0:
             return False
+        elif pit == 'player 1 mancala' or pit == 'player 2 mancala':
+            return False
         else:
             return True
 
@@ -107,6 +109,10 @@ class Board:
             if not play_again:
                 self.can_capture(self.current_player, current_pit)
                 self.switch_player()
+        if self.winning_eval():
+            self.winning_gather()
+            self.game_over = True
+            self.determine_winner()
 
     def winning_eval(self):
         """
