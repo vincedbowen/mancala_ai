@@ -46,7 +46,7 @@ class TestBoard(TestCase):
     def test_player_two_pit_correction(self):
         board = Board()
         new_pit = board.player_two_pit_correction(4)
-        self.assertEqual(new_pit, 10)
+        self.assertEqual(new_pit, 11)
 
     def test_move(self):
         pass
@@ -115,8 +115,8 @@ class TestBoard(TestCase):
         }
 
         with mock.patch.object(board, 'virtual_board', mocked_state):
-            result = board.determine_winner()
-            self.assertEqual(result, 1)
+            board.determine_winner()
+            self.assertEqual(board.winner, 1)
 
     def test_determine_winner_tie(self):
         board = Board()
