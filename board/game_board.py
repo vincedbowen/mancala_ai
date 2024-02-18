@@ -54,10 +54,10 @@ class Board:
         """
         # Check the pit is in the range and the pit is non-empty
         if self.current_player == 1:
-            if pit < 1 or pit > self.pits_per_player:
+            if pit < 1 or pit > 6:
                 return False
         else:
-            if pit < self.pits_per_player + 1 or pit > 2 * self.pits_per_player:
+            if pit < 8 or pit > 13:
                 return False
         if self.virtual_board[pit] == 0:
             return False
@@ -72,7 +72,7 @@ class Board:
         :param pit: the pit entered [1,6] that must be corrected
         :returns: The correct value for the internal data structure
         """
-        return pit + self.pits_per_player
+        return pit + self.pits_per_player + 1
 
     def move(self, pit):
         """
@@ -82,9 +82,11 @@ class Board:
         if self.current_player == 2:
             pit = self.player_two_pit_correction(pit)
         if self.winning_eval():
+            self.winning_gather()
             self.game_over = True
+            self.determine_winner()
         elif not self.valid_move(pit):
-            print("Invalid Move!")
+            pass
         else:
             stones = self.virtual_board[pit]
             self.virtual_board[pit] = 0
@@ -101,9 +103,9 @@ class Board:
                 elif current_pit == 0 and self.current_player == 1:
                     self.virtual_board['player 1 mancala'] += 1
                     stones -= 1
-            self.can_capture(self.current_player, current_pit)
             play_again = self.check_for_play_again(self.current_player, current_pit)
             if not play_again:
+                self.can_capture(self.current_player, current_pit)
                 self.switch_player()
 
     def winning_eval(self):
@@ -126,7 +128,14 @@ class Board:
 
         :return:
         """
-        pass
+        for pit, stones in self.virtual_board.items():
+            if pit != 'player 1 mancala' and pit != 'player 2 mancala':
+                if 1 <= pit <= 6:
+                    self.virtual_board['player 1 mancala'] += stones
+                    self.virtual_board[pit] = 0
+                elif 8 <= pit <= 13:
+                    self.virtual_board['player 2 mancala'] += stones
+                    self.virtual_board[pit] = 0
 
     def can_capture(self, current_player, ending_pit):
         """
@@ -138,7 +147,7 @@ class Board:
         if current_player == 1 and 1 <= ending_pit <= self.pits_per_player:
             if self.virtual_board[ending_pit] == 1:
                 self.capture(ending_pit)
-        elif current_player == 2 and self.pits_per_player + 1 <= ending_pit <= 2 * self.pits_per_player:
+        elif current_player == 2 and self.pits_per_player + 2 <= ending_pit <= 2 * self.pits_per_player + 1:
             if self.virtual_board[ending_pit] == 1:
                 self.capture(ending_pit)
 
@@ -147,8 +156,8 @@ class Board:
         Actually captures the stone from the opponent's opposite pit
         :param ending_pit: The pit in which to the current opponent ended on
         """
-        opposite = (2 * self.pits_per_player + 1) - ending_pit
-        self.virtual_board[ending_pit] += opposite
+        opposite = (2 * self.pits_per_player + 2) - ending_pit
+        self.virtual_board[ending_pit] += self.virtual_board[opposite]
         self.virtual_board[opposite] = 0
 
     def check_for_play_again(self, current_player, ending_pit):
@@ -167,15 +176,14 @@ class Board:
 
     def determine_winner(self):
         """
-        Determines who won the game
-        :return: The winner of the game. If the game is a tie, return None
+        Determines who won the game, and sets that player as the winner in the instance
         """
         if self.virtual_board['player 1 mancala'] > self.virtual_board['player 2 mancala']:
-            return 1
+            self.winner = 1
         elif self.virtual_board['player 2 mancala'] > self.virtual_board['player 1 mancala']:
-            return 2
+            self.winner = 2
         else:
-            return None
+            self.winner = None
 
     def switch_player(self):
         """

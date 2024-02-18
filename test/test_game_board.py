@@ -5,7 +5,7 @@ from board.game_board import Board
 
 
 class TestBoard(TestCase):
-    def test_valid_move(self):
+    def test_valid_move_basic(self):
         board = Board()
         # Mocking player 1 winning
         mocked_state = {
@@ -21,6 +21,26 @@ class TestBoard(TestCase):
 
         with mock.patch.object(board, 'virtual_board', mocked_state):
             result = board.valid_move(2)
+            self.assertFalse(result)
+
+    def test_valid_move_edge_cases(self):
+        board = Board()
+        # Mocking player 1 winning
+        mocked_state = {
+            'player 1 mancala': 2,
+            1: 1, 2: 0, 3: 4, 4: 8, 5: 6, 6: 0,
+            'player 2 mancala': 3,
+            7: 0, 8: 1, 9: 2, 10: 4, 11: 5, 12: 0
+        }
+
+        with mock.patch.object(board, 'virtual_board', mocked_state):
+            result = board.valid_move(0)
+            self.assertFalse(result)
+        with mock.patch.object(board, 'virtual_board', mocked_state):
+            result = board.valid_move(7)
+            self.assertFalse(result)
+        with mock.patch.object(board, 'virtual_board', mocked_state):
+            result = board.valid_move(14)
             self.assertFalse(result)
 
     def test_player_two_pit_correction(self):

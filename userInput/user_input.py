@@ -40,7 +40,7 @@ def get_option():
             continue
         else:
             if selection == '1':
-                pass
+                return "simulate.py"
             else:
                 return "play.py"
 
