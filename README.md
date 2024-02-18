@@ -1,4 +1,4 @@
-![Test](https://github.com/vincedbowen/mancala_ai/actions/workflows/test.yml/badge.svg)
+![Tests](https://github.com/vincedbowen/mancala_ai/actions/workflows/test.yml/badge.svg)
 # Mancala
 
 ## Introduction
